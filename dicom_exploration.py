@@ -3,7 +3,6 @@ import pandas as pd
 import pydicom
 import numpy as np
 import os
-import warnings
 import logging
 
 from pandas import DataFrame
@@ -91,7 +90,7 @@ def get_mr_info(folder):
                     modality, os.path.join(
                         folder, f)))
     except KeyError:
-        warnings.warn(
+        logger.warning(
             'No modality information found in MR image file: {}'.format(
                 os.path.join(
                     folder, f)))
@@ -133,7 +132,7 @@ def get_ct_info(folder):
                     modality, os.path.join(
                         folder, f)))
     except KeyError:
-        warnings.warn(
+        logger.warning(
             'No modality information found in CT image file: {}'.format(
                 os.path.join(
                     folder, f)))
