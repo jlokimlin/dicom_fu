@@ -122,7 +122,7 @@ def standardize_structure_in_place(source):
             except shutil.Error as e:
                 logger.debug(e)
     # clean up empty directories
-    logger.info('\nFinished moving files. Cleaning up empty subdirectories')
+    logger.info('\nFinished moving files. Cleaning up empty subdirectories.')
     remove_empty_subdirs(source)
 
 
