@@ -65,10 +65,9 @@ CT_TAGS_OF_INTEREST = {
     'ImageType': str
 }
 
-logger = logging.getLogger('explorer')
-
 
 def get_mr_info(folder):
+    logger.info('Starting directory {}'.format(folder))
     dicom_files = [f for f in os.listdir(folder)]
     found_mr = False
     for f in dicom_files:
@@ -80,6 +79,7 @@ def get_mr_info(folder):
             found_mr = True
             break
     if not found_mr:
+        logger.info('No MR files found in directory {}'.format(folder))
         return None
     try:
         modality = im.Modality
@@ -111,6 +111,7 @@ def get_mr_info(folder):
 
 
 def get_ct_info(folder):
+    logger.info('Starting directory {}'.format(folder))
     dicom_files = [f for f in os.listdir(folder)]
     found_ct = False
     for f in dicom_files:
@@ -122,6 +123,7 @@ def get_ct_info(folder):
             found_ct = True
             break
     if not found_ct:
+        logger.info('No CT files found in directory {}'.format(folder))
         return None
     try:
         modality = im.Modality
@@ -183,13 +185,29 @@ if __name__ == "__main__":
         "-o",
         help="name of the output file",
         default='summary.csv')
+    parser.add_argument(
+        "--log",
+        '-l',
+        help="logging level to use: can be one of INFO, DEBUG, WARNING, ERROR, CRITICAL",
+        choices=[
+            'INFO',
+            'DEBUG',
+            'WARNING',
+            'ERROR',
+            'CRITICAL'],
+        type=str.upper,
+        default='WARNING')
     args = parser.parse_args()
     root = args.root
     output_file = args.output_file
-    print('Analyzing file structure')
+    loglevel = args.log
+    numeric_level = getattr(logging, loglevel.upper(), None)
+    logging.basicConfig(level=numeric_level)
+    logger = logging.getLogger('explorer')
+    logger.info('Analyzing file structure')
     leaves = find_leaves(root)
     df = pd.DataFrame()
-    print('Analyzing volumes')
+    logger.info('Analyzing volumes')
     for l in tqdm.tqdm(leaves, ascii=True):
         ct_info = get_ct_info(l)
         df = df.append(ct_info, ignore_index=True)
