@@ -23,6 +23,7 @@ You can change the tags of interest by changing the CT_TAGS_OF_INTEREST or MR_TA
 ## standardize_directory_structure.py
 ### Usage:
 **./standardize_directory_structure.py SOURCE -o DEST**
+
 If DEST is provided, the files are moved to the DEST folder with the following structure: patientid/studyid/seriesid/dicom_file.dcm
 Otherwise, the files are reorganized under SOURCE with the same structure. The final structure will be as follows:
 - ROOT
