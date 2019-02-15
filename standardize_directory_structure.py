@@ -184,7 +184,7 @@ def standardize_structure(source, dest):
                         r, filename), os.path.join(
                         target_dir, new_filename))
                 counter.update()
-    logger.info('Finished moving files')
+    logger.info('\nFinished moving files')
 
 
 if __name__ == "__main__":
